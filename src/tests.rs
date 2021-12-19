@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod tests {
+    use colored::Colorize;
     // use std::process::exit;
     use find::Config;
     use find::find;
