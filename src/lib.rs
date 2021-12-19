@@ -40,50 +40,44 @@ pub fn search_depth(path: &Path, results: &mut Vec<String>, config: &Config) {
     //     }
     // }
 
-    // match path.read_dir() {
-    //     Ok(red_dir) => {
-    //         red_dir.for_each(|file| {
-    //             match file {
-    //                 Ok(dir_entry) => {
-    //                     match dir_entry.file_name().to_str() {
-    //                         None => {
-    //                             println!("No such file?");
-    //                         }
-    //                         Some(s) => {
-    //                             dir_entry.path().is_dir().then(|| {
-    //                                 search_depth(dir_entry.path().as_path(), results, config);
-    //                             });
-    //                             s.contains(&config.target).then(|| {
-    //                                 results.push(String::from(dir_entry.path().to_str().unwrap()));
-    //                             });
-    //                         }
-    //                     }
-    //                 }
-    //                 Err(_) => {}
-    //             }
-    //         })
-    //     }
-    //     Err(red_dir_err) => { println!("Failed to read directory: \
-    //     The provided path doesn’t exist.\
-    //     The process lacks permissions to view the contents.\
-    //     The path points at a non-directory file. {}", red_dir_err); }
-    // }
-
-
-    if let Ok(red_dir) = path.read_dir() {
-        red_dir.for_each(|file| {
-            if let Ok(dir_entry) = file {
-                if let Some(name) = dir_entry.file_name().to_str() {
+    match path.read_dir() {
+        Ok(red_dir) => {
+            red_dir.for_each(|file| {
+                if let Ok(dir_entry) = file {
                     dir_entry.path().is_dir().then(|| {
                         search_depth(dir_entry.path().as_path(), results, config);
                     });
-                    name.contains(&config.target).then(|| {
-                        results.push(String::from(dir_entry.path().to_str().unwrap()));
-                    });
+                    if let Some(name) = dir_entry.file_name().to_str() {
+                        name.contains(&config.target).then(|| {
+                            results.push(String::from(dir_entry.path().to_str().unwrap()));
+                        });
+                    }
                 }
-            }
-        })
+            })
+        }
+        Err(red_dir_err) => { println!("Failed to read directory: \
+        The provided path doesn’t exist.\
+        The process lacks permissions to view the contents.\
+        The path points at a non-directory file. {}", red_dir_err); }
     }
+
+
+    // if let Ok(red_dir) = path.read_dir() {
+    //     red_dir.for_each(|file| {
+    //         if let Ok(dir_entry) = file {
+    //             dir_entry.path().is_dir().then(|| {
+    //                 search_depth(dir_entry.path().as_path(), results, config);
+    //             });
+    //             if let Some(name) = dir_entry.file_name().to_str() {
+    //                 name.contains(&config.target).then(|| {
+    //                     results.push(String::from(dir_entry.path().to_str().unwrap()));
+    //                 });
+    //             }
+    //         }
+    //     })
+    // } else if Err(e) == path.read_dir() {
+    //     println!("Failed to read dir: {}", e);
+    // }
 }
 
 
