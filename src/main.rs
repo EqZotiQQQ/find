@@ -10,7 +10,6 @@ use find::{Config, find};
  * find WHERE_TO_FIND [OPTIONS] WHAT_TO_FIND
  */
 fn main() {
-    // args() может запаниковать, если аргумент не unicode символ
     let args: Vec<String> = env::args().collect();
 
     let config = Config::new(&args).unwrap_or_else(
