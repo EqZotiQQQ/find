@@ -20,7 +20,7 @@ impl fmt::Display for CustomError {
 }
 
 pub struct Config<'a> {
-    pub path: &'a str,
+    pub path: &'a Path,
     pub target: &'a str,
 }
 
@@ -33,7 +33,7 @@ impl<'a> Config<'a> {
             return Err(CustomError::InvalidPathError);
         }
         Ok(Config {
-            path: args[1].as_str(),
+            path: args[1].as_ref(),
             target: args[2].as_str(),
         })
     }
@@ -41,8 +41,7 @@ impl<'a> Config<'a> {
 
 pub fn find(config: Config) -> Result<Vec<String>, &str> {
     let mut results: Vec<String> = vec![];
-    let path = Path::new(&config.path);
-    search_depth(path, &mut results, &config);
+    search_depth(config.path, &mut results, &config);
     return Ok(results)
 }
 
