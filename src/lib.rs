@@ -1,4 +1,23 @@
+use std::fmt;
 use std::path::Path;
+
+pub enum CustomError {
+    NotEnoughArgumentError,
+    InvalidPathError,
+}
+
+impl fmt::Display for CustomError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            CustomError::NotEnoughArgumentError => {
+                write!(f, "Not enough arguments!")
+            }
+            CustomError::InvalidPathError => {
+                write!(f, "Invalid path!")
+            }
+        }
+    }
+}
 
 pub struct Config<'a> {
     pub path: &'a str,
@@ -6,15 +25,25 @@ pub struct Config<'a> {
 }
 
 impl<'a> Config<'a> {
-    pub fn new(args: &'a Vec<String>) -> Result<Config, &str> {
+    pub fn new(args: &'a Vec<String>) -> Result<Config, CustomError> {
         if args.len() < 3 {
-            return Err("Not enough arguments");
+            return Err(CustomError::NotEnoughArgumentError);
+        }
+        if !Path::exists(args[1].as_ref()) {
+            return Err(CustomError::InvalidPathError);
         }
         Ok(Config {
             path: args[1].as_str(),
             target: args[2].as_str(),
         })
     }
+}
+
+pub fn find(config: Config) -> Result<Vec<String>, &str> {
+    let mut results: Vec<String> = vec![];
+    let path = Path::new(&config.path);
+    search_depth(path, &mut results, &config);
+    return Ok(results)
 }
 
 pub fn search_depth(path: &Path, results: &mut Vec<String>, config: &Config) {
@@ -33,26 +62,15 @@ pub fn search_depth(path: &Path, results: &mut Vec<String>, config: &Config) {
                 }
             })
         }
-        Err(red_dir_err) => { println!("Failed to read directory: \
-        The provided path doesn’t exist.\
-        The process lacks permissions to view the contents.\
-        The path points at a non-directory file. {}", red_dir_err); }
+        Err(red_dir_err) => {
+            println!("Failed to read directory: \
+                The provided path doesn’t exist.\
+                The process lacks permissions to view the contents.\
+                The path points at a non-directory file. {}",
+                red_dir_err); }
     }
 }
 
-
-pub fn find(config: Config) -> Result<Vec<String>, &str> {
-    let mut results: Vec<String> = vec![];
-    if !Path::exists((&config.path).as_ref()) {
-        return Err("No such path to search");
-    }
-
-    let path = Path::new(&config.path);
-
-    search_depth(path, &mut results, &config);
-
-    return Ok(results)
-}
 
     
 

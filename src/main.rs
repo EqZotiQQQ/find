@@ -3,7 +3,7 @@ mod tests;
 use std::env;
 use std::process;
 
-use find::{Config, find};
+use find::{Config, CustomError, find};
 
 /**
  * find . -name "path"
@@ -12,12 +12,24 @@ use find::{Config, find};
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let config = Config::new(&args).unwrap_or_else(
-        |err| {
-            println!("Failed to parse arguments: {}", err);
-            process::exit(1);
+    let config = match Config::new(&args) {
+        Ok(config) => {
+            config
         }
-    );
+        Err(not_enough_arg_error) => {
+            match not_enough_arg_error {
+                CustomError::NotEnoughArgumentError => {
+                    eprintln!("{}", not_enough_arg_error);
+                    process::exit(1);
+                }
+                CustomError::InvalidPathError => {
+                    eprintln!("{}", not_enough_arg_error);
+                    process::exit(2);
+                }
+            }
+
+        }
+    };
 
     let results = find(config).unwrap_or_else(
         |err| {
