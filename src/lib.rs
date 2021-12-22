@@ -1,23 +1,9 @@
-use std::fmt;
 use std::path::Path;
+pub use crate::path_errors::custom_errors::CustomError;
 
-pub enum CustomError {
-    NotEnoughArgumentError,
-    InvalidPathError,
-}
+pub mod path_errors;
+mod tests;
 
-impl fmt::Display for CustomError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            CustomError::NotEnoughArgumentError => {
-                write!(f, "Not enough arguments!")
-            }
-            CustomError::InvalidPathError => {
-                write!(f, "Invalid path!")
-            }
-        }
-    }
-}
 
 pub struct Config<'a> {
     pub path: &'a Path,

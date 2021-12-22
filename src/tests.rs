@@ -2,6 +2,7 @@
 mod tests {
     use find::Config;
     use find::find;
+    use crate::{Config, find};
 
     #[test]
     fn folder_exists() {
