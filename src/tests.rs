@@ -1,7 +1,5 @@
 #[cfg(test)]
 mod tests {
-    use colored::Colorize;
-    // use std::process::exit;
     use find::Config;
     use find::find;
 
@@ -12,7 +10,7 @@ mod tests {
 
         let expected: Vec<&str> = vec!["/home/mikhail/git/dotfiles"];
 
-        match find(Config{path: where_to_find, target: what_to_find}) {
+        match find(Config{path: where_to_find.as_ref(), target: &*what_to_find }) {
             Ok(k) => {
                 assert_eq!(expected, k);
             }
@@ -29,7 +27,7 @@ mod tests {
 
         let expected = "No such path to search";
 
-        match find(Config{path: where_to_find, target: what_to_find}) {
+        match find(Config{path: where_to_find.as_ref(), target: &*what_to_find }) {
             Ok(_) => {
             }
             Err(e) => {
@@ -45,7 +43,7 @@ mod tests {
 
         let expected: Vec<&str> = vec!["/home/mikhail/git/dotfiles/init.sh"];
 
-        match find(Config{path: where_to_find, target: what_to_find}) {
+        match find(Config{path: where_to_find.as_ref(), target: &*what_to_find }) {
             Ok(k) => {
                 assert_eq!(expected, k);
             }

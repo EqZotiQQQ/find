@@ -7,3 +7,10 @@ edition = "2021"
 
 [dependencies]
 colored = "2"
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+name = "find_benchmarkl"
+harness = false
