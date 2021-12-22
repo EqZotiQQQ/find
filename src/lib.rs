@@ -1,7 +1,7 @@
 use std::path::Path;
-pub use crate::path_errors::custom_errors::CustomError;
+pub use crate::errors::custom_errors::CustomError;
 
-pub mod path_errors;
+pub mod errors;
 mod tests;
 
 
