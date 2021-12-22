@@ -10,14 +10,7 @@ mod tests {
 
         let expected: Vec<&str> = vec!["/home/mikhail/git/dotfiles"];
 
-        match find(Config{path: where_to_find.as_ref(), target: &*what_to_find }) {
-            Ok(k) => {
-                assert_eq!(expected, k);
-            }
-            Err(e) => {
-                println!("Failed to find string! Cause: {}", e);
-            }
-        };
+        find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
     }
 
     #[test]
@@ -27,13 +20,7 @@ mod tests {
 
         let expected = "No such path to search";
 
-        match find(Config{path: where_to_find.as_ref(), target: &*what_to_find }) {
-            Ok(_) => {
-            }
-            Err(e) => {
-                assert_eq!(expected, e);
-            }
-        };
+        find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
     }
 
     #[test]
@@ -43,13 +30,6 @@ mod tests {
 
         let expected: Vec<&str> = vec!["/home/mikhail/git/dotfiles/init.sh"];
 
-        match find(Config{path: where_to_find.as_ref(), target: &*what_to_find }) {
-            Ok(k) => {
-                assert_eq!(expected, k);
-            }
-            Err(e) => {
-                println!("Failed to find string! Cause: {}", e);
-            }
-        };
+        find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
     }
 }

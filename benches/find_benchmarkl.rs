@@ -1,4 +1,4 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
 use find::{Config, find};
 
 fn file_exist() {
@@ -7,14 +7,7 @@ fn file_exist() {
 
     let expected: Vec<&str> = vec!["/home/mikhail/git/dotfiles/init.sh"];
 
-    match find(Config{path: where_to_find.as_ref(), target: &*what_to_find }) {
-        Ok(k) => {
-            assert_eq!(expected, k);
-        }
-        Err(e) => {
-            println!("Failed to find string! Cause: {}", e);
-        }
-    };
+    find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
 }
 
 fn criterion_benchmark(c: &mut Criterion) {

@@ -27,19 +27,11 @@ fn main() {
                     process::exit(2);
                 }
             }
-
         }
     };
 
-    let results = find(config).unwrap_or_else(
-        |err| {
-            println!("No such directory: {}", err);
-            process::exit(2);
-        }
-    );
+    let results = find(config);
 
-    for result in results {
-        println!("{}", result);
-    }
+    results.iter().for_each(|path| println!("{}", path));
 }
 

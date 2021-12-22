@@ -39,13 +39,13 @@ impl<'a> Config<'a> {
     }
 }
 
-pub fn find(config: Config) -> Result<Vec<String>, &str> {
+pub fn find(config: Config) -> Vec<String> {
     let mut results: Vec<String> = vec![];
     search_depth(config.path, &mut results, &config);
-    return Ok(results)
+    return results
 }
 
-pub fn search_depth(path: &Path, results: &mut Vec<String>, config: &Config) {
+fn search_depth(path: &Path, results: &mut Vec<String>, config: &Config) {
     match path.read_dir() {
         Ok(red_dir) => {
             red_dir.for_each(|file| {
@@ -61,12 +61,9 @@ pub fn search_depth(path: &Path, results: &mut Vec<String>, config: &Config) {
                 }
             })
         }
-        Err(red_dir_err) => {
-            println!("Failed to read directory: \
-                The provided path doesn’t exist.\
-                The process lacks permissions to view the contents.\
-                The path points at a non-directory file. {}",
-                red_dir_err); }
+        Err(read_dir_err) => {
+            eprintln!("{}", read_dir_err);
+        }
     }
 }
 
