@@ -1,7 +1,5 @@
 #[cfg(test)]
 mod tests {
-    use find::Config;
-    use find::find;
     use crate::{Config, find};
 
     #[test]
@@ -11,7 +9,7 @@ mod tests {
 
         let expected: Vec<&str> = vec!["/home/mikhail/git/dotfiles"];
 
-        find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
+        // find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
     }
 
     #[test]
@@ -21,7 +19,7 @@ mod tests {
 
         let expected = "No such path to search";
 
-        find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
+        // find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
     }
 
     #[test]
@@ -31,6 +29,6 @@ mod tests {
 
         let expected: Vec<&str> = vec!["/home/mikhail/git/dotfiles/init.sh"];
 
-        find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
+        // find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
     }
 }

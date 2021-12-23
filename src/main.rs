@@ -1,18 +1,19 @@
-mod tests;
+
 
 use std::env;
 use std::process;
 
-use find::{Config, CustomError, find};
+pub use find::find_impl::{Config, CustomError, find, AppArgs};
+use clap::Parser;
 
 /**
  * find . -name "path"
  * find WHERE_TO_FIND [OPTIONS] WHAT_TO_FIND
  */
 fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    let config = match Config::new(&args) {
+    // let args: Vec<String> = env::args().collect();
+    let args = AppArgs::parse();
+    let config = match Config::new(args) {
         Ok(config) => {
             config
         }

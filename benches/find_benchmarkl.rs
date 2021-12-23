@@ -1,5 +1,5 @@
 use criterion::{criterion_group, criterion_main, Criterion};
-use find::{Config, find};
+use find::find_impl::*;
 
 fn file_exist() {
     let where_to_find = String::from("/home/mikhail/git");
@@ -7,7 +7,7 @@ fn file_exist() {
 
     let expected: Vec<&str> = vec!["/home/mikhail/git/dotfiles/init.sh"];
 
-    find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
+     // find(Config{path: where_to_find.as_ref(), target: &*what_to_find });
 }
 
 fn criterion_benchmark(c: &mut Criterion) {
