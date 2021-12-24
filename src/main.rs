@@ -1,6 +1,3 @@
-
-
-use std::env;
 use std::process;
 
 pub use find::find_impl::{Config, CustomError, find, AppArgs};
