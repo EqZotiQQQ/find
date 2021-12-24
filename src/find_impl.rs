@@ -40,11 +40,19 @@ fn search_depth(path: &PathBuf, results: &mut Vec<String>, config: &Config) {
                     dir_entry.path().is_dir().then(|| {
                         search_depth(&dir_entry.path(), results, config);
                     });
-                    if let Some(name) = dir_entry.file_name().to_str() {
+                    if let Some(name) = dir_entry.path().to_str() {
                         name.contains(&config.target).then(|| {
                             results.push(String::from(dir_entry.path().to_str().unwrap()));
                         });
                     }
+                    // dir_entry.file_name().to_str().unwrap().equivalent(&config.target).then(||
+                    //     results.push(String::from(dir_entry.path().to_str().unwrap()))
+                    // );
+                    // if let Some(name) = dir_entry.file_name().to_str() {
+                    //     name.contains(&config.target).then(|| {
+                    //         results.push(String::from(dir_entry.path().to_str().unwrap()));
+                    //     });
+                    // }
                 }
             })
         }
